@@ -1,46 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionCalls>
-        <name>Convert_Text_to_Collection_Apex</name>
-        <label>Convert Text to Collection Apex</label>
-        <locationX>50</locationX>
-        <locationY>431</locationY>
-        <actionName>TextToCollection</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Iterate_over_Attendee_Collection</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>separator</name>
-            <value>
-                <stringValue>,</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>text</name>
-            <value>
-                <elementReference>$Record.Attendees__c</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>TextToCollection</nameSegment>
-        <outputParameters>
-            <assignToReference>attendeesCollection</assignToReference>
-            <name>output</name>
-        </outputParameters>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
         <name>Add_Contact_Information</name>
         <label>Add Contact Information</label>
-        <locationX>138</locationX>
-        <locationY>1355</locationY>
+        <locationX>185</locationX>
+        <locationY>764</locationY>
         <assignmentItems>
             <assignToReference>attendeesInfo</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Iterate_over_Contact_Records.Name</elementReference>
+                <elementReference>Iterate_over_Meeting_Attendees.Contact__r.Name</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -48,31 +18,15 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Add_Contact_Record_Id</name>
-        <label>Add Contact Record Id</label>
-        <locationX>402</locationX>
-        <locationY>755</locationY>
-        <assignmentItems>
-            <assignToReference>contactRecordIdCollection</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Iterate_over_Attendee_Collection</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Iterate_over_Attendee_Collection</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Add_Lead_Information</name>
         <label>Add Lead Information</label>
-        <locationX>138</locationX>
-        <locationY>1763</locationY>
+        <locationX>447</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>attendeesInfo</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Iterate_over_Lead_Records.Name</elementReference>
+                <elementReference>Iterate_over_Meeting_Attendees.Lead__r.Name</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -80,26 +34,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Add_Lead_Record_Id</name>
-        <label>Add Lead Record Id</label>
-        <locationX>138</locationX>
-        <locationY>755</locationY>
-        <assignmentItems>
-            <assignToReference>leadRecordIdCollection</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Iterate_over_Attendee_Collection</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Iterate_over_Attendee_Collection</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Add_Separator_1</name>
         <label>Add Separator 1</label>
-        <locationX>138</locationX>
-        <locationY>1463</locationY>
+        <locationX>183</locationX>
+        <locationY>948</locationY>
         <assignmentItems>
             <assignToReference>attendeesInfo</assignToReference>
             <operator>Add</operator>
@@ -108,14 +46,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Iterate_over_Contact_Records</targetReference>
+            <targetReference>Check_for_Lead_Existence</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Add_Separator_2</name>
         <label>Add Separator 2</label>
-        <locationX>138</locationX>
-        <locationY>1871</locationY>
+        <locationX>785</locationX>
+        <locationY>1000</locationY>
         <assignmentItems>
             <assignToReference>attendeesInfo</assignToReference>
             <operator>Add</operator>
@@ -124,111 +62,71 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Iterate_over_Lead_Records</targetReference>
+            <targetReference>Iterate_over_Meeting_Attendees</targetReference>
         </connector>
     </assignments>
     <decisions>
-        <name>Check_for_Attendees_Change</name>
-        <label>Check for Attendees Change</label>
-        <locationX>182</locationX>
-        <locationY>323</locationY>
-        <defaultConnectorLabel>Not Changed</defaultConnectorLabel>
-        <rules>
-            <name>Changed</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.proper_meeting__Attendees__c</leftValueReference>
-                <operator>IsChanged</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Convert_Text_to_Collection_Apex</targetReference>
-            </connector>
-            <label>Changed</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_for_Lead_and_Contact</name>
-        <label>Check for Lead and Contact</label>
-        <locationX>402</locationX>
-        <locationY>647</locationY>
+        <name>Check_for_Contact_Existence</name>
+        <label>Check for Contact Existence</label>
+        <locationX>177</locationX>
+        <locationY>519</locationY>
         <defaultConnector>
-            <targetReference>Iterate_over_Attendee_Collection</targetReference>
+            <targetReference>Check_for_Lead_Existence</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Is_Lead</name>
+            <name>Contact_Exists</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Iterate_over_Attendee_Collection</leftValueReference>
-                <operator>StartsWith</operator>
+                <leftValueReference>Iterate_over_Meeting_Attendees.Contact__c</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
-                    <stringValue>00Q</stringValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Add_Lead_Record_Id</targetReference>
+                <targetReference>Add_Contact_Information</targetReference>
             </connector>
-            <label>Is Lead</label>
+            <label>Contact Exists</label>
         </rules>
+    </decisions>
+    <decisions>
+        <name>Check_for_Lead_Existence</name>
+        <label>Check for Lead Existence</label>
+        <locationX>437</locationX>
+        <locationY>736</locationY>
+        <defaultConnector>
+            <targetReference>Iterate_over_Meeting_Attendees</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Is_Contact</name>
+            <name>Lead_Exists</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Iterate_over_Attendee_Collection</leftValueReference>
-                <operator>StartsWith</operator>
+                <leftValueReference>Iterate_over_Meeting_Attendees.Lead__c</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
-                    <stringValue>003</stringValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Add_Contact_Record_Id</targetReference>
+                <targetReference>Add_Lead_Information</targetReference>
             </connector>
-            <label>Is Contact</label>
+            <label>Lead Exists</label>
         </rules>
     </decisions>
     <environments>Default</environments>
     <interviewLabel>Update Attendees Detail in Description {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Update Attendees Detail in Description</label>
     <loops>
-        <name>Iterate_over_Attendee_Collection</name>
-        <label>Iterate over Attendee Collection</label>
-        <locationX>50</locationX>
-        <locationY>539</locationY>
-        <collectionReference>attendeesCollection</collectionReference>
+        <name>Iterate_over_Meeting_Attendees</name>
+        <label>Iterate over Meeting Attendees</label>
+        <locationX>786</locationX>
+        <locationY>511</locationY>
+        <collectionReference>Get_Attendees_Of_Same_Meeting</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Check_for_Lead_and_Contact</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Get_Contact_Records</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
-        <name>Iterate_over_Contact_Records</name>
-        <label>Iterate over Contact Records</label>
-        <locationX>50</locationX>
-        <locationY>1247</locationY>
-        <collectionReference>Get_Contact_Records</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Add_Contact_Information</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Iterate_over_Lead_Records</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
-        <name>Iterate_over_Lead_Records</name>
-        <label>Iterate over Lead Records</label>
-        <locationX>50</locationX>
-        <locationY>1655</locationY>
-        <collectionReference>Get_Lead_Records</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Add_Lead_Information</targetReference>
+            <targetReference>Check_for_Contact_Existence</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Update_Attendees_Information</targetReference>
@@ -243,7 +141,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -254,104 +152,62 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>Get_Contact_Records</name>
-        <label>Get Contact Records</label>
-        <locationX>50</locationX>
-        <locationY>1031</locationY>
+        <name>Get_Attendees_Of_Same_Meeting</name>
+        <label>Get Attendees Of Same Meeting</label>
+        <locationX>791</locationX>
+        <locationY>343</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Lead_Records</targetReference>
+            <targetReference>Iterate_over_Meeting_Attendees</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Id</field>
-            <operator>In</operator>
+            <field>Event__c</field>
+            <operator>EqualTo</operator>
             <value>
-                <elementReference>contactRecordIdCollection</elementReference>
+                <elementReference>$Record.Event__c</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>Contact</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Lead_Records</name>
-        <label>Get Lead Records</label>
-        <locationX>50</locationX>
-        <locationY>1139</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Iterate_over_Contact_Records</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>In</operator>
-            <value>
-                <elementReference>leadRecordIdCollection</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>Lead</object>
+        <object>Meeting_Attendee__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
         <name>Update_Attendees_Information</name>
         <label>Update Attendees Information</label>
-        <locationX>50</locationX>
-        <locationY>2063</locationY>
+        <locationX>1118</locationX>
+        <locationY>732</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Event__c</elementReference>
+            </value>
+        </filters>
         <inputAssignments>
             <field>Description</field>
             <value>
                 <elementReference>attendeesInfo</elementReference>
             </value>
         </inputAssignments>
-        <inputReference>$Record</inputReference>
+        <object>Event</object>
     </recordUpdates>
     <start>
-        <locationX>56</locationX>
-        <locationY>0</locationY>
+        <locationX>648</locationX>
+        <locationY>39</locationY>
         <connector>
-            <targetReference>Check_for_Attendees_Change</targetReference>
+            <targetReference>Get_Attendees_Of_Same_Meeting</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Subject</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Online Meeting</stringValue>
-            </value>
-        </filters>
-        <object>Event</object>
+        <object>Meeting_Attendee__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
     <variables>
-        <name>attendeesCollection</name>
-        <dataType>String</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
         <name>attendeesInfo</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>contactRecordIdCollection</name>
-        <dataType>String</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>leadRecordIdCollection</name>
-        <dataType>String</dataType>
-        <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
