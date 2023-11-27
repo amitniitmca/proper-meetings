@@ -20,7 +20,7 @@
         <inputParameters>
             <name>text</name>
             <value>
-                <elementReference>$Record.Attendees</elementReference>
+                <elementReference>$Record.Attendees__c</elementReference>
             </value>
         </inputParameters>
         <nameSegment>TextToCollection</nameSegment>
@@ -137,7 +137,7 @@
             <name>Changed</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Attendees</leftValueReference>
+                <leftValueReference>$Record.proper_meeting__Attendees__c</leftValueReference>
                 <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
