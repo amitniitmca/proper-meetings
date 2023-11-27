@@ -7,6 +7,10 @@
 **/
 @IsTest
 class TextToCollectionTest {
+    /**
+    * @description This method is used to test the convert method of the TextToCollection class for positive test.
+    * @author Amit Kumar (Proper Salesforce Tutorials) | 27-11-2023 
+    **/
     @IsTest
     static void convertTest(){
         String text = 'abc,def,ghi';
@@ -23,6 +27,10 @@ class TextToCollectionTest {
         System.assertEquals('ghi', values.get(0).get(2), 'Third element in the list not same');
     }
 
+    /**
+    * @description This method is used to test the convert method of the TextToCollection class for negative test.
+    * @author Amit Kumar (Proper Salesforce Tutorials) | 27-11-2023 
+    **/
     @IsTest
     static void convertTestForException(){
         List<List<String>> values;
