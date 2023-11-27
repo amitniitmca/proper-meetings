@@ -14,16 +14,25 @@
     </classAccesses>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event.Attendees__c</field>
+        <field>Meeting_Attendee__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Task.Attendees__c</field>
+        <field>Meeting_Attendee__c.Lead__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Proper Meetings Admin</label>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Meeting_Attendee__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Event.Online_Meeting_Type</recordType>
         <visible>true</visible>
