@@ -14,6 +14,16 @@
     </classAccesses>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Timezone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Timezone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Meeting_Attendee__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
